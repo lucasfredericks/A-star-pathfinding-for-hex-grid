@@ -1,4 +1,3 @@
-import boofcv.processing.*;
 import processing.video.*;
 import java.util.*;
 import org.ejml.*;
@@ -8,8 +7,6 @@ import boofcv.io.calibration.CalibrationIO;
 import boofcv.alg.geo.PerspectiveOps;
 import georegression.*;
 
-//SimpleFiducial detector;
-
 Hexgrid hexGrid;
 Arena arena;
 Hexagon startHex;
@@ -17,33 +14,30 @@ Hexagon targetHex;
 int startDirection;
 AStar pathFinder;
 
-int hexSize = 70;
-int margin = 20;
-color bg = color(0, 0, 0, 0);
-color hover = color(255);
+
 PGraphics gridOutlines;
 PGraphics gridFill;
 PGraphics arenaMask;
 
+//Settings variables
+int impassableRate = 4; //set between 0 and 10. Higher numbers increase the rate of impassable hexes
+int hexSize = 20; //
+int stepDelay = 10;
+
 void setup() {
   frameRate(30);
-  surface.setSize(1920, 1080); //have to do this manually for detector to work
-  fullScreen(1);// specifying renderer here appears to break the detector
+  surface.setSize(1920, 1080);
+  fullScreen(1);
+
   initArena();
-
-
-
-
-  //println("governor instantiated");
   gridOutlines = createGraphics(width, height);
   gridFill = createGraphics(width, height);
   hexGrid.drawOutlines(gridOutlines);
-  println("setup complete");
   pathFinder = new AStar(hexGrid);
   mouseClicked();
 }
 
-void initArena() {
+void initArena() { // Create a mask to determine where hexes will be drawn
   arena = new Arena();
   PVector[] pxCorners = new PVector[6];
   int j = 0;
@@ -61,38 +55,22 @@ void initArena() {
 
 void draw() {
   background(255);
-  ////canvas.beginDraw();
-  //image(arenaMask, 0, 0, width, height);
-
-  //startHex.drawHexFill(gridFill, 255);
-  //targetHex.drawHexFill(gridFill, 255);
   hexGrid.drawHexes(gridFill);
   image(gridFill, 0, 0, width, height);
   image(gridOutlines, 0, 0, width, height);
   pathFinder.calculate();
   pathFinder.generatePath();
   pathFinder.displayPath();
-  delay(100);
-  //pushMatrix();
-  //translate(startHex.pixelX, startHex.pixelY);
-  //rotate(startDirection*(TWO_PI/6));
-  //line(0, 0, 0, -hexSize);
-  //popMatrix();
+  delay(stepDelay);
 }
 
 void mouseClicked() {
 
-  hexGrid.seedMap(4);
-  startHex = pickHex();
-  //startDirection = int(random(0, 6));
-  //println(startDirection);
-  targetHex = pickHex();
+  hexGrid.seedMap(impassableRate); //assign impassable/passable to each hex
+  startHex = pickHex(); //random start
+  targetHex = pickHex(); //random target
   pathFinder.reset();
   pathFinder.setTargets(startHex, targetHex);
-
-
-  //hexGrid.drawHexes(gridFill);
-
   pathFinder.calculate();
   pathFinder.displayPath();
 }

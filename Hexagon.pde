@@ -75,7 +75,8 @@ class Hexagon {
       buffer.vertex(cornerX, cornerY);
     }
     buffer.endShape(CLOSE);
-    if (false) {
+    
+    if (false) { //debug
       buffer.strokeWeight(2);
       buffer.stroke(0);
       buffer.fill(0);
@@ -174,15 +175,6 @@ class Hexagon {
     buffer.endDraw();
     //println("blink: " + blinkAlpha);
   }
-
-  //void occupy(Rover rover) {
-  //  occupied = true;
-  //  occupant = rover;
-  //}
-  //void vacate() {
-  //  occupied = false;
-  //  occupant = null;
-  //}
 
   PVector hexToPixel(int q, int r) {
     PVector temp = new PVector(0, 0);

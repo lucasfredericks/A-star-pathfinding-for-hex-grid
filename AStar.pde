@@ -1,4 +1,8 @@
-class AStar { //<>//
+/* //<>//
+Based on Daniel Shiffman's A* Pathfinding Algorithm tutorial which can be found at: https://thecodingtrain.com/CodingChallenges/051.1-astar.html
+*/
+
+class AStar {
   Hexagon start;
   Hexagon target;
   Hexagon current;
@@ -51,12 +55,9 @@ class AStar { //<>//
     } 
     loop();
   }
+  
   void calculate() {
-    //for (Map.Entry<PVector, Hexagon> me : hexGrid.allHexes.entrySet()) {
-    //  Hexagon h = me.getValue();
-    //  h.resetPathfindingVars();
-    //}
-    //while (true) {
+    //while (true) { //remove delay in draw function and uncomment to skip animation and show the solution in one step
     if (openSet.size() > 0) {
       int winner = 0;
       for (int i = 0; i < openSet.size(); i++) {

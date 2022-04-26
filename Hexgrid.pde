@@ -9,10 +9,12 @@
 class Hexgrid {
   HashMap<PVector, Hexagon> allHexes;
   PVector[] neighbors;
-  int qMin = -1;   //the q axis corresponds to the x axis on the screen. Higher values are further right
-  int qMax = 30;
-  int rMin = -13;   //the r axis is 30 degrees counterclockwise to the q/x axis. Higher values are down and to the left
-  int rMax = 13;
+  
+  //variables to constrain the cube grid parameters 
+  int qMin = -100;   //the q axis corresponds to the x axis on the screen. Higher values are further right
+  int qMax = 100;
+  int rMin = -100;   //the r axis is 30 degrees counterclockwise to the q/x axis. Higher values are down and to the left
+  int rMax = 100;
   int hexSize;
   Hexagon r1Hex;
 
